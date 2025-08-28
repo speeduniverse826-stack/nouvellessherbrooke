@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📺 Nouvelles Sherbrooke 24/7</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTm91dmVsbGVzIFNoZXJicm9va2UgMjQvNyIsInNob3J0X25hbWUiOiJTaGVyYnJvb2tlIDI0LzciLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJ0aGVtZV9jb2xvciI6IiMzYjgyZjYiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZmZmZmZiIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXhNalFpSUdobGFXZG9kRDBpTVRJMElqNEtQSEpsWTNRZ2VEMGlNakFpSUhrOUlqSXdJaUIzYVdSMGFEMGlPRFFpSUdobGFXZG9kRDBpT0RSaUlHWnBiR3c5SWlNek9EZ3labUVpTHo0S1BIUmxlSFFnZUQwaU5EUWlJSGs5SWpRMUlpQm1hV3hzUFNJamJqWTJibVk0SWo0ellVZFdhVzUxY3p3dmRHVjRkRDRLUEhKbFkzUWdlRDBpTWpBaUlIazlJall3SWlCM2FXUjBhRDBpT0RSaUlHaGxhV2RvZEQwaU5EUmlJR1pwYkd3OUlpTTNPRGN6WldRaUx6NEtQQzl6ZG1jKyIsInNpemVzIjoiMTI4eDEyOCIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="description" content="Nouvelles locales de Sherbrooke 24h/24, 7j/7 - Actualités en temps réel">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <h1 class="header__title">📺 Nouvelles Sherbrooke 24/7</h1>
+                <p class="header__subtitle">Actualités en temps réel • Sherbrooke et région</p>
+                <div class="header__widgets">
+                    <div class="weather-widget" id="weather-widget">
+                        <span class="weather-icon">🌡️</span>
+                        <span class="weather-temp" id="weather-temp">22°C</span>
+                        <span class="weather-condition" id="weather-condition">Partiellement nuageux</span>
+                    </div>
+                    <div class="live-time" id="live-time"></div>
+                </div>
+                <div class="header__actions">
+                    <div class="social-buttons">
+                        <a href="https://facebook.com" target="_blank" class="btn-social btn-facebook">
+                            <span>📘</span> Facebook
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="btn-social btn-twitter">
+                            <span>🐦</span> Twitter
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="btn-social btn-instagram">
+                            <span>📸</span> Instagram
+                        </a>
+                        <a href="https://tiktok.com" target="_blank" class="btn-social btn-tiktok">
+                            <span>🎵</span> TikTok
+                        </a>
+                    </div>
+                    <div class="header-controls">
+                        <button class="btn btn--sm btn--outline" id="newsletter-btn">📧 Newsletter</button>
+                        <button class="btn btn--sm btn--outline" id="theme-toggle">🌙 Mode sombre</button>
+                        <button class="btn btn--sm btn--outline" id="lang-toggle">EN</button>
+                        <div class="live-counter">
+                            <span class="live-dot"></span>
+                            <span id="visitor-count">1,247</span> en ligne
+                        </div>
+                    </div>
+                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="🔍 Rechercher des actualités..." id="search-input">
+                    <div class="search-suggestions hidden" id="search-suggestions"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breaking News Alert -->
+    <div class="breaking-alert" id="breaking-alert">
+        <div class="container">
+            <div class="breaking-alert__content">
+                <span class="breaking-alert__label">🚨 DERNIÈRE HEURE</span>
+                <span class="breaking-alert__text" id="breaking-text">
+                    Festival international du film documentaire confirmé pour Sherbrooke en 2026
+                </span>
+                <button class="breaking-alert__close" id="breaking-close">×</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Ticker -->
+    <div class="ticker-container">
+        <div class="ticker">
+            <div class="ticker__content" id="ticker-content">
+                <!-- Ticker items will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <main class="main-layout">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Quick Stats Bar -->
+                    <div class="stats-bar">
+                        <div class="stat-item">
+                            <span class="stat-icon">👀</span>
+                            <span class="stat-number" id="articles-read">8,934</span>
+                            <span class="stat-label">articles lus aujourd'hui</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">🔥</span>
+                            <span class="stat-text">Article le plus lu: Festival documentaire</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">📰</span>
+                            <span class="stat-number" id="breaking-count">2</span>
+                            <span class="stat-label">dernières heures</span>
+                        </div>
+                    </div>
+
+                    <!-- Category Navigation -->
+                    <section class="categories" id="categories">
+                        <h2 class="categories__title">Catégories d'actualités</h2>
+                        <div class="categories__grid" id="categories-grid">
+                            <!-- Categories will be populated by JavaScript -->
+                        </div>
+                        <div class="category-filters">
+                            <button class="filter-btn active" data-filter="recent">📅 Récentes</button>
+                            <button class="filter-btn" data-filter="popular">🔥 Populaires</button>
+                            <button class="filter-btn" data-filter="breaking">⚡ Dernière heure</button>
+                            <button class="filter-btn" data-filter="saved">🔖 Favoris</button>
+                        </div>
+                    </section>
+
+                    <!-- Content Warning Panel -->
+                    <div class="content-warning hidden" id="content-warning">
+                        <div class="content-warning__content">
+                            <div class="content-warning__icon">⚠️</div>
+                            <h3>Contenu sensible</h3>
+                            <p>Cette section contient des informations sur des événements dramatiques et exceptionnels qui peuvent heurter la sensibilité.</p>
+                            <div class="content-warning__actions">
+                                <button class="btn btn--outline" id="cancel-warning">Retour</button>
+                                <button class="btn btn--primary" id="reveal-content">Afficher le contenu</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- News Section -->
+                    <section class="news-section" id="news-section">
+                        <div class="news-section__header">
+                            <h2 id="section-title">Actualités locales</h2>
+                            <div class="news-actions">
+                                <div class="news-count" id="news-count">0 articles</div>
+                                <button class="btn btn--sm btn--outline" id="refresh-news">🔄 Actualiser</button>
+                            </div>
+                        </div>
+                        <div class="news-grid" id="news-grid">
+                            <!-- News cards will be populated by JavaScript -->
+                        </div>
+                    </section>
+
+                    <!-- Local Links Section -->
+                    <section class="local-links-section">
+                        <h3>🏛️ Liens utiles de Sherbrooke</h3>
+                        <div class="quick-links-grid" id="quick-links">
+                            <!-- Quick links will be populated by JavaScript -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <!-- Weather Widget -->
+                    <div class="widget weather-widget-full">
+                        <h3 class="widget-title">🌡️ Météo Sherbrooke</h3>
+                        <div class="weather-details">
+                            <div class="weather-main">
+                                <span class="weather-temp-big">22°C</span>
+                                <span class="weather-condition">Partiellement nuageux</span>
+                            </div>
+                            <div class="weather-extra">
+                                <div>Ressenti: 24°C</div>
+                                <div>Humidité: 65%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Statistics -->
+                    <div class="widget stats-widget">
+                        <h3 class="widget-title">📊 Statistiques en direct</h3>
+                        <div class="stats-list">
+                            <div class="stat-row">
+                                <span>Visiteurs en ligne</span>
+                                <span class="stat-value" id="live-visitors">1,247</span>
+                            </div>
+                            <div class="stat-row">
+                                <span>Articles lus aujourd'hui</span>
+                                <span class="stat-value">8,934</span>
+                            </div>
+                            <div class="stat-row">
+                                <span>Nouveaux abonnés</span>
+                                <span class="stat-value">+127</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trending Topics -->
+                    <div class="widget trending-widget">
+                        <h3 class="widget-title">🔥 Sujets tendance</h3>
+                        <div class="trending-list" id="trending-list">
+                            <!-- Trending topics will be populated -->
+                        </div>
+                    </div>
+
+                    <!-- Events This Weekend -->
+                    <div class="widget events-widget">
+                        <h3 class="widget-title">📅 Cette fin de semaine</h3>
+                        <div class="events-list" id="events-list">
+                            <!-- Events will be populated -->
+                        </div>
+                    </div>
+
+                    <!-- Emergency Alerts -->
+                    <div class="widget alerts-widget">
+                        <h3 class="widget-title">🚨 Alertes d'urgence</h3>
+                        <div class="alert-item">
+                            <span class="alert-status">🟢</span>
+                            <span>Aucune alerte active</span>
+                        </div>
+                        <button class="btn btn--sm btn--outline full-width">Voir toutes les alertes</button>
+                    </div>
+
+                    <!-- Quick Poll -->
+                    <div class="widget poll-widget">
+                        <h3 class="widget-title">🎯 Sondage rapide</h3>
+                        <div class="poll-question">
+                            <p>Quel transport privilégiez-vous au centre-ville?</p>
+                            <div class="poll-options">
+                                <button class="poll-option" data-vote="walking">🚶 À pied</button>
+                                <button class="poll-option" data-vote="bike">🚴 Vélo</button>
+                                <button class="poll-option" data-vote="bus">🚌 Autobus</button>
+                                <button class="poll-option" data-vote="car">🚗 Auto</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile App Download -->
+                    <div class="widget app-widget">
+                        <h3 class="widget-title">📱 Application mobile</h3>
+                        <p>Téléchargez notre app pour les notifications en temps réel</p>
+                        <div class="app-buttons">
+                            <button class="btn btn--sm btn--primary">📱 iOS</button>
+                            <button class="btn btn--sm btn--primary">🤖 Android</button>
+                        </div>
+                    </div>
+
+                    <!-- Live Chat -->
+                    <div class="widget chat-widget">
+                        <h3 class="widget-title">💬 Chat en direct</h3>
+                        <p>Besoin d'aide? Contactez notre équipe</p>
+                        <button class="btn btn--sm btn--primary full-width" id="open-chat">Démarrer une conversation</button>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- News Modal -->
+    <div class="modal hidden" id="news-modal">
+        <div class="modal__backdrop" id="modal-backdrop"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2 id="modal-title"></h2>
+                <button class="modal__close" id="modal-close">×</button>
+            </div>
+            <div class="modal__body">
+                <div class="modal__meta">
+                    <span class="modal__category" id="modal-category"></span>
+                    <span class="modal__date" id="modal-date"></span>
+                    <span class="modal__source" id="modal-source"></span>
+                    <span class="modal__location" id="modal-location"></span>
+                </div>
+                <img class="modal__image" id="modal-image" alt="" />
+                <div class="modal__engagement">
+                    <div class="engagement-stats">
+                        <span id="modal-views">👀 1,542 vues</span>
+                        <span id="modal-likes">👍 127 j'aime</span>
+                        <span id="modal-comments">💬 23 commentaires</span>
+                        <span id="modal-reading-time">⏱️ 3 min de lecture</span>
+                    </div>
+                    <div class="engagement-actions">
+                        <button class="btn btn--sm btn--outline" id="like-btn">👍 J'aime</button>
+                        <button class="btn btn--sm btn--outline" id="save-btn">🔖 Sauvegarder</button>
+                        <button class="btn btn--sm btn--outline" id="share-btn">📤 Partager</button>
+                        <button class="btn btn--sm btn--outline" id="comment-btn">💬 Commenter</button>
+                    </div>
+                </div>
+                <div class="modal__content-text" id="modal-content"></div>
+                <div class="share-options hidden" id="share-options">
+                    <h4>Partager cet article</h4>
+                    <div class="share-buttons">
+                        <button class="share-btn whatsapp">📱 WhatsApp</button>
+                        <button class="share-btn messenger">💬 Messenger</button>
+                        <button class="share-btn email">📧 Email</button>
+                        <button class="share-btn copy">📋 Copier le lien</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Modal -->
+    <div class="modal hidden" id="newsletter-modal">
+        <div class="modal__backdrop" id="newsletter-backdrop"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2>📧 Newsletter Sherbrooke 24/7</h2>
+                <button class="modal__close" id="newsletter-close">×</button>
+            </div>
+            <div class="modal__body">
+                <p>Recevez les dernières nouvelles de Sherbrooke directement dans votre boîte email!</p>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Votre adresse email" id="newsletter-email">
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="news-frequency"> Nouvelles quotidiennes
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="breaking-news"> Alertes dernière heure
+                    </label>
+                </div>
+                <button class="btn btn--primary full-width">S'abonner maintenant</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>📺 Nouvelles Sherbrooke 24/7</h4>
+                    <p>Votre source d'information locale en continu</p>
+                </div>
+                <div class="footer-section">
+                    <h5>Liens rapides</h5>
+                    <ul>
+                        <li><a href="#" target="_blank">🏛️ Ville de Sherbrooke</a></li>
+                        <li><a href="#" target="_blank">🎓 Université de Sherbrooke</a></li>
+                        <li><a href="#" target="_blank">🏒 Phoenix de Sherbrooke</a></li>
+                        <li><a href="#" target="_blank">🚌 Transport STS</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Services</h5>
+                    <ul>
+                        <li><a href="#" target="_blank">🏥 Hôpital CHUS</a></li>
+                        <li><a href="#" target="_blank">🌄 Tourisme Sherbrooke</a></li>
+                        <li><a href="#" target="_blank">🗺️ Google Maps</a></li>
+                        <li><a href="#" target="_blank">📻 Radio locale</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact</h5>
+                    <ul>
+                        <li>📧 info@sherbrooke24-7.ca</li>
+                        <li>📞 819-555-NEWS</li>
+                        <li>🚨 Urgence: 911</li>
+                        <li>📋 Plan du site</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Nouvelles Sherbrooke 24/7. Actualités locales en temps réel.</p>
+                <div class="footer-links">
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">Conditions d'utilisation</a>
+                    <a href="#">À propos</a>
+                    <a href="#">Nous contacter</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

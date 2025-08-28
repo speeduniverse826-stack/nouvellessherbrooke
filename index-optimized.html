@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 SHERBROOKE ALERTE - Nouvelles Choquantes EN DIRECT</title>
+    <meta name="description" content="Application de nouvelles choquantes et alertes urgentes de Sherbrooke en temps réel">
+    <meta name="theme-color" content="#DC2626">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚨</text></svg>">
+    <style>
+        /* CSS intégré pour performance */
+        :root {
+            --critical: #dc2626;
+            --urgent: #f97316;
+            --warning: #eab308;
+            --black: #000000;
+            --white: #ffffff;
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Breaking Ticker */
+        .breaking-ticker {
+            background: linear-gradient(90deg, var(--critical) 0%, #991b1b 100%);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            height: 50px;
+            overflow: hidden;
+            border-bottom: 3px solid var(--warning);
+        }
+
+        .ticker-label {
+            background: #7f1d1d;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            font-weight: 900;
+            font-size: 14px;
+            animation: pulse 2s infinite;
+        }
+
+        .ticker-content {
+            flex: 1;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .ticker-items {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            white-space: nowrap;
+            animation: scroll-left 60s linear infinite;
+        }
+
+        .ticker-item {
+            padding: 0 40px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Header */
+        .app-header {
+            background: var(--gray-900);
+            border-bottom: 3px solid var(--critical);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .app-title {
+            font-size: 28px;
+            color: var(--critical);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .live-indicator {
+            background: var(--critical);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--white);
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        /* Shock Banner */
+        .shock-banner {
+            background: linear-gradient(135deg, var(--critical) 0%, #7f1d1d 100%);
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shock-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 3s infinite;
+        }
+
+        .shock-headline {
+            font-size: clamp(18px, 4vw, 32px);
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            animation: flash 2s infinite;
+        }
+
+        .shock-subtext {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Category Filter */
+        .category-filter {
+            background: var(--gray-800);
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: var(--gray-700);
+            border: 2px solid transparent;
+            color: var(--white);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--critical);
+            border-color: var(--warning);
+            transform: translateY(-2px);
+        }
+
+        /* News Feed */
+        .news-feed {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: grid;
+            gap: 30px;
+        }
+
+        .news-card {
+            background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-900) 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            border-color: var(--critical);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(220, 38, 38, 0.3);
+        }
+
+        .news-card.critical {
+            border-color: var(--critical);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+            animation: criticalPulse 3s infinite;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 25px;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .news-category {
+            background: var(--critical);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .breaking-indicator {
+            background: var(--warning);
+            color: var(--black);
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 900;
+            animation: pulse 1s infinite;
+        }
+
+        .news-title {
+            font-size: 22px;
+            color: var(--white);
+            line-height: 1.3;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .news-summary {
+            font-size: 15px;
+            color: #d1d5db;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .news-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        .news-source {
+            font-weight: 600;
+            color: var(--critical);
+        }
+
+        @keyframes criticalPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(220, 38, 38, 0.8); }
+        }
+
+        /* Alert Modal */
+        .alert-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .alert-modal.show {
+            display: flex;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .alert-content {
+            background: linear-gradient(135deg, var(--critical) 0%, #991b1b 100%);
+            border-radius: 20px;
+            max-width: 90%;
+            width: 500px;
+            border: 4px solid var(--warning);
+            animation: alertBounce 0.5s ease-out;
+        }
+
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .alert-title {
+            font-size: 20px;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: flash 1s infinite;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 30px;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .alert-body {
+            padding: 30px;
+        }
+
+        .alert-headline {
+            font-size: 24px;
+            color: var(--white);
+            text-transform: uppercase;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .alert-summary {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .btn-alert {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 15px;
+        }
+
+        .btn-primary {
+            background: var(--warning);
+            color: var(--black);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        @keyframes alertBounce {
+            0% { transform: scale(0.7); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-title { font-size: 20px; }
+            .shock-headline { font-size: 18px; }
+            .news-feed { padding: 20px 15px; gap: 20px; }
+            .news-content { padding: 20px; }
+            .news-title { font-size: 18px; }
+            .category-filter { padding: 15px; gap: 8px; }
+            .filter-btn { padding: 10px 16px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Breaking News Ticker -->
+    <div class="breaking-ticker">
+        <div class="ticker-label">🔴 DERNIÈRE HEURE</div>
+        <div class="ticker-content">
+            <div class="ticker-items" id="tickerItems">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- App Header -->
+    <header class="app-header">
+        <h1 class="app-title">🚨 SHERBROOKE ALERTE</h1>
+        <div class="live-indicator">
+            <div class="pulse-dot"></div>
+            <span>EN DIRECT</span>
+        </div>
+    </header>
+
+    <!-- Shocking Headlines Banner -->
+    <div class="shock-banner">
+        <div class="shock-headline" id="shockHeadline">
+            🚨 VIOL COLLECTIF ARMÉ : 3 ARRESTATIONS À SHERBROOKE
+        </div>
+        <div class="shock-subtext" id="shockSubtext">
+            Intervention d'urgence suite aux cris de détresse - 3 suspects arrêtés
+        </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div class="category-filter">
+        <button class="filter-btn active" data-category="all">📰 TOUTES</button>
+        <button class="filter-btn" data-category="crime">🚨 CRIMES VIOLENTS</button>
+        <button class="filter-btn" data-category="accident">💀 ACCIDENTS MORTELS</button>
+        <button class="filter-btn" data-category="politique">🔥 SCANDALES POLITIQUES</button>
+        <button class="filter-btn" data-category="urgent">⚠️ URGENCES</button>
+    </div>
+
+    <!-- Main News Feed -->
+    <main class="news-feed" id="newsFeed">
+        <!-- News items populated by JavaScript -->
+    </main>
+
+    <!-- Emergency Alert Modal -->
+    <div class="alert-modal" id="alertModal">
+        <div class="alert-content">
+            <div class="alert-header">
+                <span class="alert-title" id="alertTitle">🚨 ALERTE URGENTE</span>
+                <button class="alert-close" id="alertClose">&times;</button>
+            </div>
+            <div class="alert-body">
+                <div class="alert-headline" id="alertHeadline"></div>
+                <div class="alert-summary" id="alertSummary"></div>
+                <div class="alert-actions">
+                    <button class="btn-alert btn-primary" id="alertAction">VOIR LES DÉTAILS</button>
+                    <button class="btn-alert btn-secondary" id="alertDismiss">FERMER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        const appState = {
+            currentFilter: 'all',
+            newsData: [],
+            alertsShown: 0,
+            lastUpdate: new Date()
+        };
+
+        // DOM Elements
+        const elements = {
+            tickerItems: document.getElementById('tickerItems'),
+            shockHeadline: document.getElementById('shockHeadline'),
+            shockSubtext: document.getElementById('shockSubtext'),
+            newsFeed: document.getElementById('newsFeed'),
+            alertModal: document.getElementById('alertModal'),
+            alertTitle: document.getElementById('alertTitle'),
+            alertHeadline: document.getElementById('alertHeadline'),
+            alertSummary: document.getElementById('alertSummary'),
+            alertClose: document.getElementById('alertClose'),
+            alertDismiss: document.getElementById('alertDismiss'),
+            alertAction: document.getElementById('alertAction'),
+            filterBtns: document.querySelectorAll('.filter-btn')
+        };
+
+        // Initialize App
+        async function initApp() {
+            console.log('🚨 Initializing Sherbrooke Breaking News...');
+            
+            await loadNewsData();
+            setupTicker();
+            setupEventListeners();
+            renderNews();
+            updateShockingHeadline();
+            startAutoAlerts();
+            
+            console.log('✅ App initialized successfully!');
+        }
+
+        // Load News Data
+        async function loadNewsData() {
+            try {
+                const response = await fetch('news-data.json');
+                const data = await response.json();
+                appState.newsData = data.alerts;
+                setupTicker(data.ticker);
+            } catch (error) {
+                console.error('Error loading news data:', error);
+                // Fallback data
+                appState.newsData = [
+                    {
+                        id: "fallback_001",
+                        title: "🚨 ACTUALITÉS SHERBROOKE EN COURS DE CHARGEMENT",
+                        content: "L'application charge les dernières nouvelles choquantes de Sherbrooke...",
+                        category: "SYSTÈME",
+                        severity: "INFO",
+                        location: "Sherbrooke, QC",
+                        timestamp: new Date().toISOString(),
+                        source: "Système",
+                        breaking: false,
+                        image: "https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=400&fit=crop"
+                    }
+                ];
+            }
+        }
+
+        // Setup Ticker
+        function setupTicker(tickerData) {
+            const defaultTicker = [
+                "🚨 VIOL COLLECTIF ARMÉ À SHERBROOKE - 3 arrestations",
+                "💀 TRIPLE COLLISION MORTELLE - 1 décès confirmé",
+                "🔫 SAISIE REVOLVER .357 - Jeune arrêté avec arsenal",
+                "🔥 SCANDALE POLITIQUE - Mairesse accusée d'intimidation"
+            ];
+            
+            const ticker = tickerData || defaultTicker;
+            const tickerHTML = ticker.map(item => 
+                `<span class="ticker-item">${item}</span>`
+            ).join('');
+            
+            elements.tickerItems.innerHTML = tickerHTML + tickerHTML;
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Alert modal
+            elements.alertClose?.addEventListener('click', closeAlertModal);
+            elements.alertDismiss?.addEventListener('click', closeAlertModal);
+            elements.alertAction?.addEventListener('click', handleAlertAction);
+
+            // Filter buttons
+            elements.filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const category = e.target.dataset.category;
+                    setActiveFilter(category);
+                    filterNews(category);
+                });
+            });
+
+            // Close modal on outside click
+            elements.alertModal?.addEventListener('click', (e) => {
+                if (e.target === elements.alertModal) closeAlertModal();
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeAlertModal();
+            });
+        }
+
+        // Render News
+        function renderNews(filteredNews = null) {
+            const news = filteredNews || appState.newsData;
+            
+            const newsHTML = news.map(article => {
+                const severityClass = article.severity === 'CRITIQUE' ? 'critical' : article.severity.toLowerCase();
+                
+                return `
+                    <article class="news-card ${severityClass}" data-id="${article.id}">
+                        <img src="${article.image}" alt="${article.category}" class="news-image" loading="lazy">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category">${article.category}</span>
+                                ${article.breaking ? '<span class="breaking-indicator">DERNIÈRE HEURE</span>' : ''}
+                            </div>
+                            <h2 class="news-title">${article.title}</h2>
+                            <p class="news-summary">${article.content}</p>
+                            <div class="news-footer">
+                                <span class="news-source">${article.source}</span>
+                                <span class="news-date">${formatDate(article.timestamp)}</span>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+            
+            elements.newsFeed.innerHTML = newsHTML;
+            
+            // Add click listeners
+            document.querySelectorAll('.news-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const id = card.dataset.id;
+                    const article = appState.newsData.find(a => a.id === id);
+                    if (article) showAlert(article);
+                });
+            });
+        }
+
+        // Filter News
+        function filterNews(category) {
+            if (category === 'all') {
+                renderNews();
+            } else {
+                const filtered = appState.newsData.filter(article => {
+                    if (category === 'urgent') return article.severity === 'CRITIQUE';
+                    if (category === 'crime') return article.category.includes('CRIME');
+                    if (category === 'accident') return article.category.includes('ACCIDENT');
+                    if (category === 'politique') return article.category.includes('POLITIQUE');
+                    return false;
+                });
+                renderNews(filtered);
+            }
+        }
+
+        // Set Active Filter
+        function setActiveFilter(category) {
+            elements.filterBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === category);
+            });
+        }
+
+        // Show Alert
+        function showAlert(article) {
+            elements.alertTitle.textContent = '🚨 ALERTE URGENTE';
+            elements.alertHeadline.textContent = article.title;
+            elements.alertSummary.textContent = article.content;
+            elements.alertModal.classList.add('show');
+            elements.alertModal.dataset.currentId = article.id;
+        }
+
+        // Close Alert Modal
+        function closeAlertModal() {
+            elements.alertModal.classList.remove('show');
+            delete elements.alertModal.dataset.currentId;
+        }
+
+        // Handle Alert Action
+        function handleAlertAction() {
+            closeAlertModal();
+            // Could navigate to full article
+        }
+
+        // Update Shocking Headline
+        function updateShockingHeadline() {
+            const headlines = [
+                {
+                    headline: "🚨 VIOL COLLECTIF ARMÉ : 3 ARRESTATIONS À SHERBROOKE",
+                    subtext: "Intervention d'urgence suite aux cris de détresse - 3 suspects arrêtés"
+                },
+                {
+                    headline: "💀 TRIPLE COLLISION MORTELLE EN ESTRIE",
+                    subtext: "Septuagénaire décédée - Jeune de 19 ans entre la vie et la mort"
+                },
+                {
+                    headline: "🔫 SAISIE REVOLVER : ARSENAL CHEZ JEUNE DE 20 ANS",
+                    subtext: "Calibre .357 et drogues - Lourdes accusations criminelles"
+                },
+                {
+                    headline: "🔥 GUERRE POLITIQUE : MAIRESSE ACCUSÉE D'INTIMIDATION",
+                    subtext: "Climat explosif au conseil municipal - Élues dénoncent"
+                }
+            ];
+            
+            let currentIndex = 0;
+            
+            function rotate() {
+                const current = headlines[currentIndex];
+                elements.shockHeadline.textContent = current.headline;
+                elements.shockSubtext.textContent = current.subtext;
+                currentIndex = (currentIndex + 1) % headlines.length;
+            }
+            
+            rotate();
+            setInterval(rotate, 8000);
+        }
+
+        // Start Auto Alerts
+        function startAutoAlerts() {
+            setInterval(() => {
+                if (!elements.alertModal.classList.contains('show')) {
+                    const criticalNews = appState.newsData.filter(a => a.severity === 'CRITIQUE');
+                    if (criticalNews.length > 0) {
+                        const randomAlert = criticalNews[Math.floor(Math.random() * criticalNews.length)];
+                        showAlert(randomAlert);
+                    }
+                }
+            }, 60000); // Every 60 seconds
+        }
+
+        // Format Date
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('fr-CA', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Auto-refresh news every 5 minutes
+        setInterval(loadNewsData, 300000);
+
+        // Initialize on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(() => console.log('SW registered'))
+                    .catch(() => console.log('SW registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>

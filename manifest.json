@@ -1,0 +1,34 @@
+{
+  "name": "Sherbrooke Alerte News",
+  "short_name": "Sherbrooke Alerte",
+  "description": "Application de nouvelles choquantes et alertes urgentes de Sherbrooke en temps réel",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#DC2626",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23DC2626' width='192' height='192' rx='25'/><text y='140' font-size='120' text-anchor='middle' x='96' fill='white'>🚨</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%23DC2626' width='512' height='512' rx='64'/><text y='370' font-size='300' text-anchor='middle' x='256' fill='white'>🚨</text></svg>",
+      "sizes": "512x512", 
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["news", "lifestyle", "social"],
+  "lang": "fr-CA",
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23111827' width='540' height='720'/><rect fill='%23DC2626' width='540' height='80'/><text x='20' y='50' fill='white' font-size='16' font-weight='bold'>🔴 DERNIÈRE HEURE</text><rect fill='%23DC2626' y='80' width='540' height='120'/><text x='270' y='140' fill='white' font-size='24' text-anchor='middle' font-weight='bold'>🚨 SHERBROOKE ALERTE</text><text x='270' y='170' fill='white' font-size='14' text-anchor='middle'>EN DIRECT</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ]
+}

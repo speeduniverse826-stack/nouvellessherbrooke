@@ -1,0 +1,61 @@
+{
+  "lastUpdate": "2025-08-28T14:48:00Z",
+  "source": "Sherbrooke Breaking News",
+  "alerts": [
+    {
+      "id": "breaking_001",
+      "title": "🚨 VIOL COLLECTIF ARMÉ : 3 ARRESTATIONS À SHERBROOKE",
+      "content": "Trois jeunes hommes arrêtés pour agression sexuelle armée. Intervention d'urgence suite aux cris de détresse entendus par les voisins.",
+      "category": "CRIME VIOLENT",
+      "severity": "CRITIQUE",
+      "location": "Rue Short, Sherbrooke",
+      "timestamp": "2025-07-03T23:15:00Z",
+      "source": "TVA Sherbrooke",
+      "breaking": true,
+      "image": "https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=400&fit=crop"
+    },
+    {
+      "id": "breaking_002",
+      "title": "💀 TRIPLE COLLISION MORTELLE EN ESTRIE",
+      "content": "Accident dramatique sur la route 104 : une septuagénaire décédée, jeune de 19 ans dans état critique.",
+      "category": "ACCIDENT MORTEL",
+      "severity": "CRITIQUE",
+      "location": "Route 104, Cowansville",
+      "timestamp": "2025-08-03T13:45:00Z",
+      "source": "Sûreté du Québec",
+      "breaking": true,
+      "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop"
+    },
+    {
+      "id": "breaking_003",
+      "title": "🔫 SAISIE REVOLVER : ARME ET DROGUES CHEZ JEUNE DE 20 ANS",
+      "content": "Contrôle routier révèle arsenal : revolver calibre .357 et stupéfiants. Lourdes accusations criminelles.",
+      "category": "CRIME ORGANISÉ",
+      "severity": "URGENT",
+      "location": "Rue Larocque, Sherbrooke",
+      "timestamp": "2025-08-19T21:30:00Z",
+      "source": "Police de Sherbrooke",
+      "breaking": true,
+      "image": "https://images.unsplash.com/photo-1578867109908-4e06ff89d4e6?w=800&h=400&fit=crop"
+    },
+    {
+      "id": "breaking_004",
+      "title": "🔥 GUERRE POLITIQUE : MAIRESSE ACCUSÉE D'INTIMIDATION",
+      "content": "Climat explosif au conseil municipal. Élues dénoncent pratiques d'intimidation de la mairesse Beaudin.",
+      "category": "SCANDALE POLITIQUE",
+      "severity": "URGENT",
+      "location": "Hôtel de ville, Sherbrooke",
+      "timestamp": "2025-06-17T20:00:00Z",
+      "source": "FM 107,7",
+      "breaking": false,
+      "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop"
+    }
+  ],
+  "ticker": [
+    "🚨 VIOL COLLECTIF ARMÉ À SHERBROOKE - 3 arrestations confirmées",
+    "💀 TRIPLE COLLISION MORTELLE - 1 décès + plusieurs critiques",
+    "🔫 SAISIE REVOLVER .357 - Jeune de 20 ans arrêté avec arsenal",
+    "🔥 SCANDALE POLITIQUE - Mairesse accusée d'intimidation",
+    "⚠️ HÉCATOMBE ROUTIÈRE - 38 morts cet été, pire bilan en 10 ans"
+  ]
+}

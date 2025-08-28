@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📰 Sherbrooke Actualités - Nouvelles Locales</title>
+    <meta name="description" content="Actualités locales de Sherbrooke et de l'Estrie en temps réel">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+    <style>
+        :root {
+            /* Couleurs professionnelles et équilibrées */
+            --primary: #3b82f6;
+            --secondary: #059669;
+            --accent: #7c3aed;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+            --dark: #1f2937;
+            --darker: #111827;
+            --light: #f8fafc;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --white: #ffffff;
+            --black: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--light) 0%, #e2e8f0 100%);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header professionnel */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2563eb 100%);
+            color: var(--white);
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .app-title {
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .live-indicator {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        /* Ticker d'actualités modéré */
+        .news-ticker {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 12px 0;
+            overflow: hidden;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .ticker-content {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: scroll-ticker 45s linear infinite;
+        }
+
+        .ticker-item {
+            padding: 0 50px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        @keyframes scroll-ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Navigation par catégories */
+        .category-nav {
+            background: var(--white);
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category-btn {
+            background: var(--light);
+            border: 2px solid var(--gray-light);
+            color: var(--dark);
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .category-btn.shocking {
+            border-color: var(--danger);
+        }
+
+        .category-btn.shocking.active {
+            background: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .category-icon {
+            font-size: 24px;
+        }
+
+        .category-name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .category-count {
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        /* Contenu principal */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title.shocking {
+            color: var(--danger);
+        }
+
+        /* Grille d'actualités */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .news-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary);
+        }
+
+        .news-card.breaking {
+            border-color: var(--warning);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .news-card.shocking {
+            border-color: var(--danger);
+        }
+
+        .news-card.shocking:hover {
+            border-color: var(--danger);
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.15);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover .news-image {
+            transform: scale(1.05);
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .news-category {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-local { background: #dcfce7; color: #166534; }
+        .category-sports { background: #dbeafe; color: #1e40af; }
+        .category-culture { background: #ede9fe; color: #6b21a8; }
+        .category-economie { background: #fed7aa; color: #9a3412; }
+        .category-education { background: #d1fae5; color: #065f46; }
+        .category-shocking { background: #fee2e2; color: #991b1b; }
+
+        .breaking-badge {
+            background: var(--warning);
+            color: var(--white);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        .news-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .news-summary {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .news-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--gray);
+            border-top: 1px solid var(--gray-light);
+            padding-top: 12px;
+        }
+
+        .news-source {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .news-date {
+            font-weight: 500;
+        }
+
+        /* Modal d'article */
+        .news-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .news-modal.show {
+            display: flex;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 15px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+
+        .modal-content-text {
+            font-size: 16px;
+            color: var(--dark);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal-meta {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Avertissement pour section choquante */
+        .content-warning {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 2px solid var(--danger);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .warning-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--danger);
+            margin-bottom: 10px;
+        }
+
+        .warning-text {
+            font-size: 14px;
+            color: #7f1d1d;
+            margin-bottom: 15px;
+        }
+
+        .warning-toggle {
+            background: var(--danger);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .warning-toggle:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        /* Section masquée par défaut */
+        .shocking-content {
+            display: none;
+        }
+
+        .shocking-content.revealed {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                text-align: center;
+            }
+            
+            .app-title {
+                font-size: 24px;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 10px;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .modal-content {
+                margin: 10px;
+                max-height: 95vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .ticker-item {
+                padding: 0 30px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header professionnel -->
+    <header class="app-header">
+        <div class="header-content">
+            <div>
+                <h1 class="app-title">📰 Sherbrooke Actualités</h1>
+                <div class="app-subtitle">Nouvelles locales de Sherbrooke et de l'Estrie</div>
+            </div>
+            <div class="header-info">
+                <div class="live-indicator">
+                    <div class="pulse-dot"></div>
+                    <span>Mise à jour continue</span>
+                </div>
+                <div>🇨🇦 Québec</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Ticker d'actualités -->
+    <div class="news-ticker">
+        <div class="ticker-content" id="tickerContent">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Navigation par catégories -->
+    <nav class="category-nav">
+        <div class="nav-container">
+            <div class="category-grid" id="categoryGrid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <h2 class="section-title" id="sectionTitle">
+            <span id="sectionIcon">📰</span>
+            <span id="sectionName">Toutes les actualités</span>
+        </h2>
+
+        <!-- Avertissement pour contenu sensible -->
+        <div class="content-warning" id="contentWarning" style="display: none;">
+            <div class="warning-title">⚠️ Contenu Sensible</div>
+            <div class="warning-text">
+                Cette section contient des informations sur des événements dramatiques ou troublants 
+                qui peuvent heurter la sensibilité de certains lecteurs.
+            </div>
+            <button class="warning-toggle" id="revealShocking">
+                Voir les faits divers marquants
+            </button>
+        </div>
+
+        <div class="news-grid" id="newsGrid">
+            <!-- Populated by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Modal d'article -->
+    <div class="news-modal" id="newsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div id="modalCategory"></div>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <div class="modal-content-text" id="modalContent"></div>
+                <div class="modal-meta">
+                    <div><strong>Source:</strong> <span id="modalSource"></span></div>
+                    <div><strong>Lieu:</strong> <span id="modalLocation"></span></div>
+                    <div><strong>Date:</strong> <span id="modalDate"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        const appState = {
+            currentCategory: 'all',
+            newsData: [],
+            categories: [],
+            shockingRevealed: false
+        };
+
+        // DOM Elements
+        const elements = {
+            tickerContent: document.getElementById('tickerContent'),
+            categoryGrid: document.getElementById('categoryGrid'),
+            sectionTitle: document.getElementById('sectionTitle'),
+            sectionIcon: document.getElementById('sectionIcon'),
+            sectionName: document.getElementById('sectionName'),
+            contentWarning: document.getElementById('contentWarning'),
+            revealShocking: document.getElementById('revealShocking'),
+            newsGrid: document.getElementById('newsGrid'),
+            newsModal: document.getElementById('newsModal'),
+            modalClose: document.getElementById('modalClose'),
+            modalCategory: document.getElementById('modalCategory'),
+            modalTitle: document.getElementById('modalTitle'),
+            modalContent: document.getElementById('modalContent'),
+            modalSource: document.getElementById('modalSource'),
+            modalLocation: document.getElementById('modalLocation'),
+            modalDate: document.getElementById('modalDate')
+        };
+
+        // Initialize App
+        async function initApp() {
+            console.log('📰 Initializing Sherbrooke News App...');
+            
+            await loadNewsData();
+            setupTicker();
+            setupCategories();
+            setupEventListeners();
+            renderNews();
+            
+            console.log('✅ App initialized successfully!');
+        }
+
+        // Load News Data
+        async function loadNewsData() {
+            try {
+                const response = await fetch('sherbrooke_balanced_news.json');
+                const data = await response.json();
+                appState.newsData = data.news;
+                appState.categories = data.categories;
+                appState.tickerMessages = data.ticker_messages;
+            } catch (error) {
+                console.error('Error loading news data:', error);
+                // Fallback data
+                appState.newsData = [
+                    {
+                        id: "fallback_001",
+                        title: "Chargement des actualités en cours...",
+                        summary: "L'application charge les dernières nouvelles de Sherbrooke.",
+                        content: "Veuillez patienter pendant le chargement des actualités locales.",
+                        category: "local",
+                        priority: "normal",
+                        timestamp: new Date().toISOString(),
+                        source: "Système",
+                        location: "Sherbrooke",
+                        image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=400&fit=crop",
+                        breaking: false
+                    }
+                ];
+                appState.categories = [
+                    {id: "all", name: "Toutes les actualités", icon: "📰", color: "#3b82f6"}
+                ];
+                appState.tickerMessages = ["📰 Actualités de Sherbrooke en cours de chargement..."];
+            }
+        }
+
+        // Setup Ticker
+        function setupTicker() {
+            const tickerHTML = appState.tickerMessages.map(message => 
+                `<span class="ticker-item">${message}</span>`
+            ).join('');
+            
+            elements.tickerContent.innerHTML = tickerHTML + tickerHTML; // Duplicate for seamless scroll
+        }
+
+        // Setup Categories
+        function setupCategories() {
+            const categoriesHTML = appState.categories.map(category => {
+                const newsCount = category.id === 'all' 
+                    ? appState.newsData.length 
+                    : appState.newsData.filter(news => news.category === category.id).length;
+                
+                return `
+                    <button class="category-btn ${category.id === 'shocking' ? 'shocking' : ''} ${category.id === 'all' ? 'active' : ''}" 
+                            data-category="${category.id}" 
+                            style="--category-color: ${category.color}">
+                        <div class="category-icon">${category.icon}</div>
+                        <div class="category-name">${category.name}</div>
+                        <div class="category-count">${newsCount} article${newsCount > 1 ? 's' : ''}</div>
+                    </button>
+                `;
+            }).join('');
+            
+            elements.categoryGrid.innerHTML = categoriesHTML;
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Category buttons
+            elements.categoryGrid.addEventListener('click', (e) => {
+                const btn = e.target.closest('.category-btn');
+                if (btn) {
+                    const category = btn.dataset.category;
+                    setActiveCategory(category);
+                }
+            });
+
+            // Reveal shocking content
+            elements.revealShocking.addEventListener('click', () => {
+                appState.shockingRevealed = true;
+                elements.contentWarning.style.display = 'none';
+                renderNews();
+            });
+
+            // Modal controls
+            elements.modalClose.addEventListener('click', closeModal);
+            elements.newsModal.addEventListener('click', (e) => {
+                if (e.target === elements.newsModal) closeModal();
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+        }
+
+        // Set Active Category
+        function setActiveCategory(categoryId) {
+            appState.currentCategory = categoryId;
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === categoryId);
+            });
+            
+            // Update section title
+            const category = appState.categories.find(c => c.id === categoryId);
+            if (category) {
+                elements.sectionIcon.textContent = category.icon;
+                elements.sectionName.textContent = category.name;
+                elements.sectionTitle.className = categoryId === 'shocking' ? 'section-title shocking' : 'section-title';
+            }
+            
+            // Show warning for shocking content
+            if (categoryId === 'shocking' && !appState.shockingRevealed) {
+                elements.contentWarning.style.display = 'block';
+                elements.newsGrid.innerHTML = '';
+                return;
+            } else {
+                elements.contentWarning.style.display = 'none';
+            }
+            
+            renderNews();
+        }
+
+        // Render News
+        function renderNews() {
+            let filteredNews = appState.newsData;
+            
+            if (appState.currentCategory !== 'all') {
+                filteredNews = appState.newsData.filter(news => news.category === appState.currentCategory);
+            }
+            
+            // Don't show shocking content unless revealed
+            if (appState.currentCategory === 'shocking' && !appState.shockingRevealed) {
+                return;
+            }
+            
+            const newsHTML = filteredNews.map(news => {
+                const categoryClass = `category-${news.category}`;
+                const cardClass = news.breaking ? 'news-card breaking' : 
+                                 news.category === 'shocking' ? 'news-card shocking' : 'news-card';
+                
+                return `
+                    <article class="${cardClass}" data-news-id="${news.id}">
+                        <img src="${news.image}" alt="${news.title}" class="news-image" loading="lazy">
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span class="news-category ${categoryClass}">${getCategoryName(news.category)}</span>
+                                ${news.breaking ? '<span class="breaking-badge">En cours</span>' : ''}
+                            </div>
+                            <h3 class="news-title">${news.title}</h3>
+                            <p class="news-summary">${news.summary}</p>
+                            <div class="news-footer">
+                                <span class="news-source">${news.source}</span>
+                                <span class="news-date">${formatDate(news.timestamp)}</span>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+            
+            elements.newsGrid.innerHTML = newsHTML;
+            
+            // Add click listeners
+            document.querySelectorAll('.news-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const newsId = card.dataset.newsId;
+                    const news = appState.newsData.find(n => n.id === newsId);
+                    if (news) showModal(news);
+                });
+            });
+        }
+
+        // Show Modal
+        function showModal(news) {
+            const categoryClass = `category-${news.category}`;
+            
+            elements.modalCategory.innerHTML = `<span class="news-category ${categoryClass}">${getCategoryName(news.category)}</span>`;
+            elements.modalTitle.textContent = news.title;
+            elements.modalContent.textContent = news.content;
+            elements.modalSource.textContent = news.source;
+            elements.modalLocation.textContent = news.location;
+            elements.modalDate.textContent = formatDate(news.timestamp);
+            
+            elements.newsModal.classList.add('show');
+        }
+
+        // Close Modal
+        function closeModal() {
+            elements.newsModal.classList.remove('show');
+        }
+
+        // Get Category Name
+        function getCategoryName(categoryId) {
+            const category = appState.categories.find(c => c.id === categoryId);
+            return category ? category.name : categoryId;
+        }
+
+        // Format Date
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('fr-CA', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Auto-refresh every 5 minutes
+        setInterval(loadNewsData, 300000);
+
+        // Initialize on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(() => console.log('SW registered'))
+                    .catch(() => console.log('SW registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>

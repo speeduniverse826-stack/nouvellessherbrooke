@@ -1,0 +1,195 @@
+{
+  "lastUpdate": "2025-08-28T19:16:00Z",
+  "source": "Sherbrooke Actualités",
+  "categories": [
+    {
+      "id": "all",
+      "name": "Toutes les actualités",
+      "icon": "📰",
+      "color": "#3b82f6",
+      "description": "L'ensemble des nouvelles locales"
+    },
+    {
+      "id": "local",
+      "name": "Actualités locales",
+      "icon": "🏛️",
+      "color": "#059669",
+      "description": "Nouvelles de la ville et région"
+    },
+    {
+      "id": "sports",
+      "name": "Sports",
+      "icon": "⚽",
+      "color": "#0891b2",
+      "description": "Phoenix, Vert & Or et sports locaux"
+    },
+    {
+      "id": "culture",
+      "name": "Culture & Événements",
+      "icon": "🎭",
+      "color": "#7c3aed",
+      "description": "Festivals, spectacles, expositions"
+    },
+    {
+      "id": "economie",
+      "name": "Économie",
+      "icon": "💼",
+      "color": "#ea580c",
+      "description": "Entreprises, emploi, développement"
+    },
+    {
+      "id": "education",
+      "name": "Éducation",
+      "icon": "🎓",
+      "color": "#16a34a",
+      "description": "Université, cégeps, écoles"
+    },
+    {
+      "id": "shocking",
+      "name": "Faits Divers Marquants",
+      "icon": "⚠️",
+      "color": "#dc2626",
+      "description": "Événements exceptionnels et dramatiques"
+    }
+  ],
+  "news": [
+    {
+      "id": "news_001",
+      "title": "Rentrée scolaire réussie dans les écoles sherbrookoises",
+      "summary": "Plus de 25 000 élèves ont repris le chemin des classes cette semaine dans la région de Sherbrooke pour l'année scolaire 2025-2026.",
+      "content": "La rentrée scolaire s'est déroulée sans encombre dans l'ensemble des établissements de Sherbrooke. Les nouveaux aménagements et les investissements en technologie éducative ont été bien accueillis par les familles.",
+      "category": "education",
+      "priority": "normal",
+      "timestamp": "2025-08-25T08:00:00Z",
+      "source": "La Tribune",
+      "location": "Sherbrooke",
+      "image": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=400&fit=crop",
+      "breaking": false
+    },
+    {
+      "id": "news_002",
+      "title": "Festival des traditions du monde : bilan positif de la 28e édition",
+      "summary": "Le FTMS 2025 a attiré plus de 150 000 visiteurs au centre-ville de Sherbrooke, confirmant son statut d'événement majeur en Estrie.",
+      "content": "Avec plus de 90 spectacles sur 10 scènes, le Festival des traditions du monde de Sherbrooke a une fois de plus démontré la richesse culturelle de la région. Le nouveau chapiteau Hacienda Latina a été particulièrement apprécié.",
+      "category": "culture",
+      "priority": "normal",
+      "timestamp": "2025-08-18T16:30:00Z",
+      "source": "EstrieePlus.com",
+      "location": "Centre-ville de Sherbrooke",
+      "image": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&h=400&fit=crop",
+      "breaking": false
+    },
+    {
+      "id": "news_003",
+      "title": "Phoenix de Sherbrooke : alignement final confirmé pour la saison 2025-2026",
+      "summary": "L'équipe junior sherbrookoise dévoile sa formation avec 24 joueurs retenus, dont 9 nouveaux visages pour la prochaine campagne.",
+      "content": "Le Phoenix de Sherbrooke entre en saison avec optimisme. L'entraîneur-chef mise sur un mélange d'expérience et de jeunesse pour viser les séries éliminatoires de la LHJMQ.",
+      "category": "sports",
+      "priority": "normal",
+      "timestamp": "2025-08-24T10:15:00Z",
+      "source": "Le Sherbrooke.info",
+      "location": "Palais des Sports",
+      "image": "https://images.unsplash.com/photo-1578867109908-4e06ff89d4e6?w=800&h=400&fit=crop",
+      "breaking": false
+    },
+    {
+      "id": "news_004",
+      "title": "Nouvelle entreprise technologique s'implante au centre-ville",
+      "summary": "InnovaTech Sherbrooke créera 75 nouveaux emplois spécialisés en intelligence artificielle et développement logiciel.",
+      "content": "Cette implantation confirme l'attractivité de Sherbrooke pour les entreprises tech. La Ville et l'Université de Sherbrooke ont collaboré pour faciliter cette installation stratégique.",
+      "category": "economie",
+      "priority": "high",
+      "timestamp": "2025-08-27T14:20:00Z",
+      "source": "La Tribune",
+      "location": "Centre-ville de Sherbrooke",
+      "image": "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=400&fit=crop",
+      "breaking": false
+    },
+    {
+      "id": "news_005",
+      "title": "Université de Sherbrooke : nouveau programme en développement durable",
+      "summary": "Le programme interdisciplinaire accueillera ses premiers étudiants à l'automne 2026, répondant aux enjeux environnementaux actuels.",
+      "content": "Cette initiative positionne l'UdeS comme pionnière au Québec. Le programme combinera sciences, ingénierie, économie et sciences sociales pour former les experts de demain.",
+      "category": "education",
+      "priority": "normal",
+      "timestamp": "2025-08-26T11:45:00Z",
+      "source": "UdeS Communications",
+      "location": "Campus de l'Université",
+      "image": "https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=400&fit=crop",
+      "breaking": false
+    },
+    {
+      "id": "news_006",
+      "title": "Réaménagement du parc Jacques-Cartier : travaux débutent en septembre",
+      "summary": "Un investissement de 2,3 millions pour moderniser cet espace vert prisé des familles sherbrookoises.",
+      "content": "Les travaux incluent de nouveaux jeux pour enfants, des sentiers accessibles, un éclairage LED et des espaces de pique-nique rénovés. Fin prévue au printemps 2026.",
+      "category": "local",
+      "priority": "normal",
+      "timestamp": "2025-08-28T09:30:00Z",
+      "source": "Ville de Sherbrooke",
+      "location": "Parc Jacques-Cartier",
+      "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop",
+      "breaking": false
+    },
+    {
+      "id": "shocking_001",
+      "title": "Incident grave au centre-ville : cinq personnes interpellées",
+      "summary": "Une altercation sur la rue Wellington Sud a nécessité l'intervention de plusieurs unités policières. Enquête en cours.",
+      "content": "Les forces de l'ordre sont intervenues suite à un signalement d'altercation impliquant plusieurs individus. Deux personnes ont été transportées à l'hôpital par précaution. Les circonstances exactes font l'objet d'une enquête approfondie.",
+      "category": "shocking",
+      "priority": "high",
+      "timestamp": "2025-08-27T03:15:00Z",
+      "source": "Service de police de Sherbrooke",
+      "location": "Rue Wellington Sud",
+      "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop",
+      "breaking": true
+    },
+    {
+      "id": "shocking_002",
+      "title": "Accident de la route avec blessés graves sur la route 104",
+      "summary": "Une collision impliquant trois véhicules a fait plusieurs blessés, dont un dans un état critique.",
+      "content": "L'accident s'est produit dans une courbe de la route 104 près de Cowansville. Les services d'urgence ont rapidement pris en charge les victimes. Un reconstitutionniste enquête sur les causes de la collision.",
+      "category": "shocking",
+      "priority": "high",
+      "timestamp": "2025-08-03T13:45:00Z",
+      "source": "Sûreté du Québec",
+      "location": "Route 104, Cowansville",
+      "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop",
+      "breaking": true
+    },
+    {
+      "id": "shocking_003",
+      "title": "Saisie importante lors d'un contrôle routier de routine",
+      "summary": "Une intervention policière a mené à la découverte de substances illicites et d'objets interdits chez un conducteur.",
+      "content": "Ce qui devait être un contrôle de routine s'est transformé en intervention majeure. Le suspect fait face à plusieurs accusations en lien avec la possession de substances et d'objets prohibés.",
+      "category": "shocking",
+      "priority": "medium",
+      "timestamp": "2025-08-19T21:30:00Z",
+      "source": "Police de Sherbrooke",
+      "location": "Rue Larocque",
+      "image": "https://images.unsplash.com/photo-1578867109908-4e06ff89d4e6?w=800&h=400&fit=crop",
+      "breaking": false
+    },
+    {
+      "id": "shocking_004",
+      "title": "Tensions au conseil municipal : échanges houleux entre élus",
+      "summary": "La dernière séance du conseil a été marquée par des désaccords sur plusieurs dossiers municipaux importants.",
+      "content": "Les débats se sont intensifiés autour de questions de gouvernance et de transparence. Plusieurs conseillers ont exprimé publiquement leurs préoccupations concernant certaines décisions administratives.",
+      "category": "shocking",
+      "priority": "medium",
+      "timestamp": "2025-06-17T20:00:00Z",
+      "source": "FM 107,7",
+      "location": "Hôtel de ville",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=400&fit=crop",
+      "breaking": false
+    }
+  ],
+  "ticker_messages": [
+    "📰 Rentrée scolaire réussie : 25 000 élèves de retour en classe",
+    "🎭 Festival des traditions : 150 000 visiteurs au centre-ville",
+    "⚽ Phoenix de Sherbrooke : alignement final dévoilé pour 2025-2026",
+    "💼 Nouvelle entreprise tech : 75 emplois créés au centre-ville",
+    "🎓 UdeS lance un programme en développement durable",
+    "⚠️ Incident centre-ville : intervention policière en cours"
+  ]
+}
